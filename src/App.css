@@ -2,27 +2,60 @@
   text-align: center;
 }
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 80px;
-}
-
 .App-header {
-  background-color: #222;
-  height: 150px;
+  height: 13vh;
   padding: 20px;
-  color: white;
-}
-
-.App-title {
-  font-size: 1.5em;
 }
 
 .App-intro {
   font-size: large;
 }
 
-@keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+.BigCountdownClock {
+  font-size: 13vh;
+}
+
+input[type='number'] {
+  text-align: right;
+}
+
+.CountdownControlPanel fieldset {
+  display: inline-block;
+}
+
+.CountdownControlPanel fieldset legend {
+  text-align: left;
+}
+
+.CountdownControlPanel-flex {
+  display: flex;
+  flex-direction: column;
+}
+
+.CountdownControlPanel-fields {
+  display: inline-flex;
+  justify-content: space-between;
+  text-align: left;
+}
+
+.CountdownControlPanel-field {
+  width: 32%;
+  padding: 5px;
+  padding-top: 10px;
+}
+
+.CountdownControlPanel-field input {
+  display: block;
+}
+
+.CountdownControlPanel-commands {
+  display: inline-flex;
+  justify-content: space-between;
+}
+
+.CountdownControlPanel-command {
+  margin: 5px;
+  min-width: 80px;
+  height: 30px;
+  bottom: 0px;
 }
