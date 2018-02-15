@@ -17,10 +17,13 @@
 
 input[type='number'] {
   text-align: right;
+  border: 1px solid;
+  height: 26px;
 }
 
 .CountdownControlPanel fieldset {
   display: inline-block;
+  border: 1px solid;  
 }
 
 .CountdownControlPanel fieldset legend {
@@ -29,7 +32,9 @@ input[type='number'] {
 
 .CountdownControlPanel-flex {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  align-items: flex-end;
+  flex-wrap: wrap;
 }
 
 .CountdownControlPanel-fields {
@@ -39,8 +44,7 @@ input[type='number'] {
 }
 
 .CountdownControlPanel-field {
-  width: 32%;
-  padding: 5px;
+  margin: 5px;
   padding-top: 10px;
 }
 
@@ -58,4 +62,11 @@ input[type='number'] {
   min-width: 80px;
   height: 30px;
   bottom: 0px;
+  background: white;
+  border: 1px solid;
+  transition: all 0.2s ease-in-out;
+}
+
+.CountdownControlPanel-command:hover {
+  background: #BBBBBB;
 }
