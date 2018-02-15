@@ -80,7 +80,7 @@ class App extends Component {
 function totalSecondsToHoursMinutesSeconds(seconds) {
   return {
     hours : Math.floor(seconds / (60 * 60)),
-    minutes : Math.floor(seconds / 60),
+    minutes : Math.floor((seconds / 60) % 60) ,
     seconds : seconds % 60
   }
 }
@@ -99,33 +99,63 @@ function BigCountdownClock({ totalSeconds }) {
   );
 }
 
-function CountdownControlPanel({ totalSeconds, dispatchStartCommand, dispatchClearCommand }) {
-  const { hours, minutes, seconds } = totalSecondsToHoursMinutesSeconds(totalSeconds);
-  const start = () => dispatchStartCommand(hoursMinutesSecondsToTotalSeconds({ hours, minutes, seconds}));
-  return (
-    <form className="CountdownControlPanel" action="javascript:void(0);">
-      <fieldset>
-        <legend>Countdown</legend>
-        <div className="CountdownControlPanel">
-          <div className="CountdownControlPanel-fields">
-            <label className="CountdownControlPanel-field"> 
-              Hour<input type="number" max="24" min="0" value={hours} />
-            </label>
-            <label className="CountdownControlPanel-field">
-              Minute <input type="number" max="60" min="0" value={minutes} />
-            </label>
-            <label className="CountdownControlPanel-field">
-              Second <input type="number" max="60" min="0" value={seconds} />
-            </label>
+class CountdownControlPanel extends React.Component {
+
+  constructor(props) {
+    super(props);
+
+    this.handleChangeHours = this.handleChangeHours.bind(this);
+    this.handleChangeMinutes = this.handleChangeMinutes.bind(this);
+    this.handleChangeSeconds = this.handleChangeSeconds.bind(this);
+
+    this.state = totalSecondsToHoursMinutesSeconds(props.totalSeconds);
+  }
+
+  handleChangeHours(event) {
+    const value = parseInt(event.target.value, 10);
+    this.setState(prevState => ({ ...prevState, hours: value }))
+  }
+
+  handleChangeMinutes(event) {
+    const value = parseInt(event.target.value, 10);
+    this.setState(prevState => ({ ...prevState, minutes: value }))
+  }
+
+  handleChangeSeconds(event) {
+    const value = parseInt(event.target.value, 10);
+    this.setState(prevState => ({ ...prevState, seconds: value }))
+  }
+
+  render() {
+    const { totalSeconds, dispatchStartCommand, dispatchClearCommand } = this.props;
+    const { hours, minutes, seconds } = this.state;
+    const start = () => dispatchStartCommand(hoursMinutesSecondsToTotalSeconds(this.state));
+    
+    return (
+      <form className="CountdownControlPanel" action="javascript:void(0);">
+        <fieldset>
+          <legend>Countdown</legend>
+          <div className="CountdownControlPanel-flex">
+            <div className="CountdownControlPanel-fields">
+              <label className="CountdownControlPanel-field"> 
+                Hour<input type="number" max="24" min="0" value={hours} onChange={this.handleChangeHours} />
+              </label>
+              <label className="CountdownControlPanel-field">
+                Minute <input type="number" max="60" min="0" value={minutes} onChange={this.handleChangeMinutes} />
+              </label>
+              <label className="CountdownControlPanel-field">
+                Second <input type="number" max="60" min="0" value={seconds} onChange={this.handleChangeSeconds} />
+              </label>
+            </div>
+            <div className="CountdownControlPanel-commands">
+              <button className="CountdownControlPanel-command" onClick={start}>Start</button>
+              <button className="CountdownControlPanel-command" onClick={dispatchClearCommand}>Clear</button>
+            </div>
           </div>
-          <div className="CountdownControlPanel-commands">
-            <button className="CountdownControlPanel-command" onClick={start}>Start</button>
-            <button className="CountdownControlPanel-command" onClick={dispatchClearCommand}>Clear</button>
-          </div>
-        </div>
-      </fieldset>
-    </form>
-  )
+        </fieldset>
+      </form>
+    )
+  }
 }
 
 export default App;
