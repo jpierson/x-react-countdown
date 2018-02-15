@@ -130,7 +130,8 @@ class CountdownControlPanel extends React.Component {
     const { totalSeconds, dispatchStartCommand, dispatchClearCommand } = this.props;
     const { hours, minutes, seconds } = this.state;
     const start = () => dispatchStartCommand(hoursMinutesSecondsToTotalSeconds(this.state));
-    
+    const selectAll = event => event.target.select();
+
     return (
       <form className="CountdownControlPanel" action="javascript:void(0);">
         <fieldset>
@@ -138,13 +139,16 @@ class CountdownControlPanel extends React.Component {
           <div className="CountdownControlPanel-flex">
             <div className="CountdownControlPanel-fields">
               <label className="CountdownControlPanel-field"> 
-                Hour<input type="number" max="24" min="0" value={hours} onChange={this.handleChangeHours} />
+                Hour<input type="number" max="24" min="0" value={hours} onChange={this.handleChangeHours} 
+                onFocus={selectAll} />
               </label>
               <label className="CountdownControlPanel-field">
-                Minute <input type="number" max="60" min="0" value={minutes} onChange={this.handleChangeMinutes} />
+                Minute <input type="number" max="60" min="0" value={minutes} onChange={this.handleChangeMinutes} 
+                onFocus={selectAll} />
               </label>
               <label className="CountdownControlPanel-field">
-                Second <input type="number" max="60" min="0" value={seconds} onChange={this.handleChangeSeconds} />
+                Second <input type="number" max="60" min="0" value={seconds} onChange={this.handleChangeSeconds} 
+                onFocus={selectAll} />
               </label>
             </div>
             <div className="CountdownControlPanel-commands">
