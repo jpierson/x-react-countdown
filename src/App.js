@@ -12,7 +12,8 @@ const countdownReducer = (state = initialState, action) => {
     case 'START':
       return { 
         ...state, 
-        isStopped : false,         
+        isStopped : false,
+        startTimestamp : action.now,
         secondsOnStart : action.totalSeconds, 
         secondsRemaining : action.totalSeconds, 
         cancelToken : action.cancelToken }
@@ -20,11 +21,15 @@ const countdownReducer = (state = initialState, action) => {
       return { 
         ...state, 
         isStopped : true, 
+        startTimestamp : 0,        
         secondsRemaining : 0, 
         cancelToken : undefined }
     case 'TICK':
       if (!state.isStopped && state.secondsRemaining > 0)
-        return { ...state, secondsRemaining : state.secondsRemaining - 1 }
+        return { 
+          ...state, 
+          secondsRemaining : state.secondsOnStart - Math.floor((action.now - state.startTimestamp) / 1000)
+        }
       else
         return state;
     default:
@@ -49,11 +54,11 @@ class App extends Component {
 
   start = (totalSeconds) => {
     var cancelToken = setInterval(
-      () => this.dispatch({ type : 'TICK' }), 
-      1000
+      () => this.dispatch({ type : 'TICK', now : performance.now() }), 
+      500
     );
 
-    this.dispatch({ type : 'START', totalSeconds : totalSeconds, cancelToken : cancelToken });
+    this.dispatch({ type : 'START', totalSeconds : totalSeconds, cancelToken : cancelToken, now : performance.now() });
   }
 
   clear = () => {
